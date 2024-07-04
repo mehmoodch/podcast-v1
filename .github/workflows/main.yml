@@ -1,12 +1,20 @@
----
-name: generate podcast feed
+name: Generate Podcast Feed
+
 on:
-  push: null
+  push:
+    branches:
+      - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Repository
+      - name: Checkout Repo
         uses: actions/checkout@v3
-      - name: run feed generator
-        uses: mehmoodch/podcast-generator@main
+
+      - name: Run Podcast Generator
+        uses: ./  # This assumes your action.yml is in the root of the repository
+        with:
+          email: ${{ github.actor }}@example.com
+          name: ${{ github.actor }}
