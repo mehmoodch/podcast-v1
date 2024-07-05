@@ -10,8 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repo
+      - name: Checkout podcast-v1 Repo
         uses: actions/checkout@v3
+
+      - name: Checkout podcast-generator Repo
+        uses: actions/checkout@v3
+        with:
+          repository: mehmoodch/podcast-generator  # Replace with your username and repo
+          path: podcast-generator  # Clone to a specific directory
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -33,7 +39,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: podcast-generator  # Use the cloned repository as context
+          file: podcast-generator/Dockerfile  # Specify the Dockerfile path
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/podcast-generator:latest
 
